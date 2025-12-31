@@ -126,11 +126,10 @@ function handleCommand(cmd) {
   }
 }
 
-input.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    handleCommand(input.value);
-    input.value = '';
-  }
+document.getElementById('command-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  handleCommand(input.value);
+  input.value = '';
 });
 
 // Focus input when clicking anywhere
