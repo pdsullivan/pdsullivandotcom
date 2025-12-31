@@ -67,8 +67,9 @@ Building a communications API platform for iMessage, RCS, SMS & voice.
 
 <span class="muted">Based in:</span> Birmingham, AL & San Francisco, CA`,
 
-  contact: `<span class="label">Work</span>     <span class="copyable" data-copy="patrick@linqapp.com">patrick@linqapp.com</span>
-<span class="label">Personal</span> <span class="copyable" data-copy="patrick@pdsullivan.com">patrick@pdsullivan.com</span>`,
+  contact: `Available contacts:
+  <span class="highlight clickable-cmd" data-cmd="workemail">work</span>     - patrick@linqapp.com
+  <span class="highlight clickable-cmd" data-cmd="personalemail">personal</span> - patrick@pdsullivan.com`,
 
   links: `Available links:
   <span class="highlight clickable-cmd" data-cmd="x">x</span>         - x.com/patsullyyy
@@ -91,8 +92,17 @@ const linkData = {
   linq: { url: 'https://linqapp.com', display: 'linqapp.com' },
 };
 
-// Track active link for y/o commands
+// Email data for contact commands
+const emailData = {
+  workemail: { email: 'patrick@linqapp.com', display: 'patrick@linqapp.com' },
+  personalemail: { email: 'patrick@pdsullivan.com', display: 'patrick@pdsullivan.com' },
+};
+
+// Track active link/email for c/o commands
 let activeLink = null;
+let activeEmail = null;
+let inContactMenu = false;
+let inLinksMenu = false;
 
 function getPromptHTML() {
   return `<span class="prompt-user">visitor</span><span class="prompt-at">@</span><span class="prompt-host">pdsullivan.com</span> <span class="prompt-separator">in</span> <span class="prompt-path">~</span> <span class="prompt-git"> main</span>`;
@@ -145,22 +155,54 @@ function handleCommand(cmd) {
     return;
   }
 
-  // Shortcuts
+  // Handle c when there's an active email
+  if (activeEmail && trimmed === 'c') {
+    navigator.clipboard.writeText(activeEmail.email);
+    haptic.confirm();
+    printLine(`<span class="muted">copied:</span> ${activeEmail.email}`, 'response');
+    activeEmail = null;
+    return;
+  }
+
+  // Context-aware shortcuts
+  let resolved = trimmed;
+
+  // When in contact menu, map display names to actual commands
+  if (inContactMenu) {
+    const contactShortcuts = { work: 'workemail', personal: 'personalemail' };
+    resolved = contactShortcuts[trimmed] || trimmed;
+  }
+
+  // When there's an active email, l goes to contact
+  if (activeEmail && trimmed === 'l') {
+    resolved = 'contact';
+  }
+
+  // General shortcuts (only apply if not already resolved)
   const shortcuts = {
     l: 'links',
     c: 'contact',
     w: 'work',
     h: 'help',
   };
-  const resolved = shortcuts[trimmed] || trimmed;
+  if (!activeEmail) {
+    resolved = shortcuts[resolved] || resolved;
+  }
 
   const response = commands[resolved];
   const link = linkData[resolved];
+  const email = emailData[resolved];
 
-  // Clear active link on any other command
+  // Clear active states on any other command
   activeLink = null;
+  activeEmail = null;
+  inContactMenu = false;
+  inLinksMenu = false;
 
   if (response) {
+    // Set menu flags for contact/links
+    if (resolved === 'contact') inContactMenu = true;
+    if (resolved === 'links') inLinksMenu = true;
     printLine(response, 'response');
     haptic.confirm(); // Success - two taps
   } else if (link) {
@@ -171,6 +213,14 @@ function handleCommand(cmd) {
   <span class="link-action" data-action="copy" data-url="${link.url}">[c] copy to clipboard</span>
   <span class="link-action" data-action="visit" data-url="${link.url}">[o] open link</span>
   <span class="clickable-cmd" data-cmd="links">[l] all links</span>`, 'response');
+    haptic.confirm();
+  } else if (email) {
+    // Show email options and set active email
+    activeEmail = email;
+    printLine(`<span class="highlight">${email.display}</span>
+
+  <span class="email-action" data-action="copy" data-email="${email.email}">[c] copy to clipboard</span>
+  <span class="clickable-cmd" data-cmd="contact">[l] all contacts</span>`, 'response');
     haptic.confirm();
   } else {
     printLine(`<span class="error">command not found:</span> ${trimmed}. Type <span class="highlight">'help'</span> for available commands.`, 'response');
@@ -226,6 +276,19 @@ document.addEventListener('click', async (e) => {
       printLine(`<span class="muted">opening:</span> ${url}`, 'response');
       window.open(url, '_blank');
     }
+    activeLink = null;
+    input.focus();
+  }
+});
+
+// Email action click
+document.addEventListener('click', async (e) => {
+  if (e.target.classList.contains('email-action')) {
+    const email = e.target.dataset.email;
+    await navigator.clipboard.writeText(email);
+    haptic.confirm();
+    printLine(`<span class="muted">copied:</span> ${email}`, 'response');
+    activeEmail = null;
     input.focus();
   }
 });

@@ -165,12 +165,14 @@ body {
   cursor: pointer;
 }
 
-.link-action {
+.link-action,
+.email-action {
   cursor: pointer;
   color: #7ee787;
 }
 
-.link-action:hover {
+.link-action:hover,
+.email-action:hover {
   text-decoration: underline;
 }
 
