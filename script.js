@@ -49,7 +49,11 @@ function printLine(html, className = '') {
   line.className = className;
   line.innerHTML = html;
   output.appendChild(line);
-  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function scrollToInput() {
+  const inputLine = document.getElementById('input-line');
+  inputLine.scrollIntoView({ block: 'end', behavior: 'instant' });
 }
 
 function printCommand(cmd) {
@@ -84,6 +88,7 @@ input.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     handleCommand(input.value);
     input.value = '';
+    setTimeout(scrollToInput, 50);
   }
 });
 
