@@ -13,7 +13,7 @@ const commands = {
 
 Co-founder & CTO at Linq. I build startups—the tech, the product, the teams.
 
-Previously a founding team member at Shipt, where I spent 5 years and led half the engineering org.
+Previously a founding team member at Shipt—built the apps that launched the company, spent 5 years scaling the tech and leading half the engineering org.
 
 Outside of work: daily workouts, scuba, skiing, good food, good wine.`,
 
