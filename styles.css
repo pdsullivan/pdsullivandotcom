@@ -8,10 +8,16 @@ body {
   background: #0d1117;
   color: #c9d1d9;
   font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
   min-height: 100vh;
   padding: 24px;
+}
+
+@media (min-width: 600px) {
+  body {
+    font-size: 14px;
+  }
 }
 
 #terminal {
@@ -100,7 +106,7 @@ body {
   border: none;
   color: #c9d1d9;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 16px; /* Prevents iOS zoom on focus */
   outline: none;
   flex: 1;
   caret-color: #58a6ff;
