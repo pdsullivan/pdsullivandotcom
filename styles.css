@@ -162,6 +162,15 @@ body {
   color: #8b949e;
 }
 
+.copyable {
+  color: #58a6ff;
+  cursor: pointer;
+}
+
+.copyable:hover {
+  text-decoration: underline;
+}
+
 a {
   color: #58a6ff;
   text-decoration: none;

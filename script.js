@@ -67,8 +67,8 @@ Building a communications API platform for iMessage, RCS, SMS & voice.
 
 <span class="muted">Based in:</span> Birmingham, AL & San Francisco, CA`,
 
-  contact: `<span class="label">Work</span>     patrick@linqapp.com
-<span class="label">Personal</span> patrick@pdsullivan.com`,
+  contact: `<span class="label">Work</span>     <span class="copyable" data-copy="patrick@linqapp.com">patrick@linqapp.com</span>
+<span class="label">Personal</span> <span class="copyable" data-copy="patrick@pdsullivan.com">patrick@pdsullivan.com</span>`,
 
   links: `<span class="label">X</span>         <a href="https://x.com/patsullyyy" target="_blank">x.com/patsullyyy</a>
 <span class="label">Instagram</span> <a href="https://instagram.com/patsullyyy" target="_blank">instagram.com/patsullyyy</a>
@@ -132,8 +132,23 @@ document.getElementById('command-form').addEventListener('submit', (e) => {
   input.value = '';
 });
 
-// Focus input when clicking anywhere
-document.addEventListener('click', () => input.focus());
+// Focus input when clicking anywhere (but not on copyable elements)
+document.addEventListener('click', (e) => {
+  if (!e.target.classList.contains('copyable')) {
+    input.focus();
+  }
+});
+
+// Copy to clipboard on click
+document.addEventListener('click', async (e) => {
+  if (e.target.classList.contains('copyable')) {
+    const text = e.target.dataset.copy;
+    await navigator.clipboard.writeText(text);
+    haptic.confirm();
+    printLine(`<span class="muted">copied to clipboard:</span> ${text}`, 'response');
+    input.focus();
+  }
+});
 
 // Welcome message
 printLine(`<span class="banner">╭─────────────────────────────────────╮
