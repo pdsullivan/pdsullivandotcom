@@ -74,7 +74,8 @@ Building a communications API platform for iMessage, RCS, SMS & voice.
 <span class="label">Instagram</span> <a href="https://instagram.com/patsullyyy" target="_blank">instagram.com/patsullyyy</a>
 <span class="label">LinkedIn</span>  <a href="https://linkedin.com/in/pdsullivan" target="_blank">linkedin.com/in/pdsullivan</a>
 <span class="label">Strava</span>    <a href="https://strava.com/athletes/patsullyyy" target="_blank">strava.com/athletes/patsullyyy</a>
-<span class="label">Thoughts</span>  <a href="https://accordingto.pdsullivan.com" target="_blank">accordingto.pdsullivan.com</a>`,
+<span class="label">Thoughts</span>  <a href="https://accordingto.pdsullivan.com" target="_blank">accordingto.pdsullivan.com</a>
+<span class="label">Linq</span>      <a href="https://linqapp.com" target="_blank">linqapp.com</a>`,
 
   clear: 'CLEAR',
 };
