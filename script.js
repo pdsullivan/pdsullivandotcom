@@ -130,9 +130,9 @@ function handleCommand(cmd) {
     return;
   }
 
-  // Handle y/o when there's an active link
-  if (activeLink && (trimmed === 'y' || trimmed === 'o')) {
-    if (trimmed === 'y') {
+  // Handle c/o when there's an active link
+  if (activeLink && (trimmed === 'c' || trimmed === 'o')) {
+    if (trimmed === 'c') {
       navigator.clipboard.writeText(activeLink.url);
       haptic.confirm();
       printLine(`<span class="muted">copied:</span> ${activeLink.url}`, 'response');
@@ -168,7 +168,7 @@ function handleCommand(cmd) {
     activeLink = link;
     printLine(`<span class="highlight">${link.display}</span>
 
-  <span class="link-action" data-action="copy" data-url="${link.url}">[y] copy to clipboard</span>
+  <span class="link-action" data-action="copy" data-url="${link.url}">[c] copy to clipboard</span>
   <span class="link-action" data-action="visit" data-url="${link.url}">[o] open link</span>
   <span class="clickable-cmd" data-cmd="links">[l] all links</span>`, 'response');
     haptic.confirm();
