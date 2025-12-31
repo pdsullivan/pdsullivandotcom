@@ -1,6 +1,49 @@
 const output = document.getElementById('output');
 const input = document.getElementById('command-input');
 
+// Haptic feedback - uses iOS 18+ checkbox switch hack, falls back to Vibration API
+const haptic = () => {
+  if ('vibrate' in navigator) {
+    navigator.vibrate(1);
+  } else {
+    triggerIOSHaptic();
+  }
+};
+
+haptic.confirm = () => {
+  if ('vibrate' in navigator) {
+    navigator.vibrate([1, 50, 1]);
+  } else {
+    triggerIOSHaptic();
+    setTimeout(triggerIOSHaptic, 80);
+  }
+};
+
+haptic.error = () => {
+  if ('vibrate' in navigator) {
+    navigator.vibrate([1, 50, 1, 50, 1]);
+  } else {
+    triggerIOSHaptic();
+    setTimeout(triggerIOSHaptic, 80);
+    setTimeout(triggerIOSHaptic, 160);
+  }
+};
+
+function triggerIOSHaptic() {
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.setAttribute('switch', '');
+  checkbox.style.cssText = 'position:fixed;top:-100px;opacity:0;pointer-events:none;';
+
+  const label = document.createElement('label');
+  label.appendChild(checkbox);
+  document.body.appendChild(label);
+
+  label.click();
+
+  requestAnimationFrame(() => label.remove());
+}
+
 const commands = {
   help: `Available commands:
   <span class="highlight">about</span>     - who is patrick?
@@ -79,8 +122,10 @@ function handleCommand(cmd) {
   const response = commands[trimmed];
   if (response) {
     printLine(response, 'response');
+    haptic.confirm(); // Success - two taps
   } else {
     printLine(`<span class="error">command not found:</span> ${trimmed}. Type <span class="highlight">'help'</span> for available commands.`, 'response');
+    haptic.error(); // Error - three taps
   }
 }
 
