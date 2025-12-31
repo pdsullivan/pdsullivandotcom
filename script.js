@@ -95,13 +95,6 @@ function printLine(html, className = '') {
   output.appendChild(line);
 }
 
-function scrollToInput() {
-  const inputLine = document.getElementById('input-line');
-  // Use 'center' to keep input visible above keyboard
-  setTimeout(() => {
-    inputLine.scrollIntoView({ block: 'center', behavior: 'instant' });
-  }, 100);
-}
 
 function printCommand(cmd) {
   printLine(`${getPromptHTML()}`, 'command-line');
@@ -137,21 +130,11 @@ input.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     handleCommand(input.value);
     input.value = '';
-    setTimeout(scrollToInput, 50);
   }
 });
 
 // Focus input when clicking anywhere
 document.addEventListener('click', () => input.focus());
-
-// Scroll to input when keyboard opens/resizes (iOS)
-if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', () => {
-    if (document.activeElement === input) {
-      scrollToInput();
-    }
-  });
-}
 
 // Welcome message
 printLine(`<span class="banner">╭─────────────────────────────────────╮
