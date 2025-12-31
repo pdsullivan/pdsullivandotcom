@@ -46,11 +46,11 @@ function triggerIOSHaptic() {
 
 const commands = {
   help: `Available commands:
-  <span class="highlight">about</span>     - who is patrick?
-  <span class="highlight">work</span>      - what do I do
-  <span class="highlight">contact</span>   - get in touch
-  <span class="highlight">links</span>     - find me elsewhere
-  <span class="highlight">clear</span>     - clear the terminal`,
+  <span class="highlight clickable-cmd" data-cmd="about">about</span>     - who is patrick?
+  <span class="highlight clickable-cmd" data-cmd="work">work</span>      - what do I do
+  <span class="highlight clickable-cmd" data-cmd="contact">contact</span>   - get in touch
+  <span class="highlight clickable-cmd" data-cmd="links">links</span>     - find me elsewhere
+  <span class="highlight clickable-cmd" data-cmd="clear">clear</span>     - clear the terminal`,
 
   about: `Hey, I'm Patrick Sullivan.
 
@@ -146,6 +146,15 @@ document.addEventListener('click', async (e) => {
     await navigator.clipboard.writeText(text);
     haptic.confirm();
     printLine(`<span class="muted">copied to clipboard:</span> ${text}`, 'response');
+    input.focus();
+  }
+});
+
+// Run command on click
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('clickable-cmd')) {
+    const cmd = e.target.dataset.cmd;
+    handleCommand(cmd);
     input.focus();
   }
 });

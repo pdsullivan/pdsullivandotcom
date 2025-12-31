@@ -162,6 +162,10 @@ body {
   color: #8b949e;
 }
 
+.clickable-cmd {
+  cursor: pointer;
+}
+
 .copyable {
   color: #58a6ff;
   cursor: pointer;
