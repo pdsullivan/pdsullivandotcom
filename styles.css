@@ -35,8 +35,7 @@ body {
 }
 
 #terminal {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 100%;
 }
 
 #output {
@@ -164,6 +163,15 @@ body {
 
 .clickable-cmd {
   cursor: pointer;
+}
+
+.link-action {
+  cursor: pointer;
+  color: #7ee787;
+}
+
+.link-action:hover {
+  text-decoration: underline;
 }
 
 .copyable {

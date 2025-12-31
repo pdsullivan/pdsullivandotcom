@@ -70,15 +70,29 @@ Building a communications API platform for iMessage, RCS, SMS & voice.
   contact: `<span class="label">Work</span>     <span class="copyable" data-copy="patrick@linqapp.com">patrick@linqapp.com</span>
 <span class="label">Personal</span> <span class="copyable" data-copy="patrick@pdsullivan.com">patrick@pdsullivan.com</span>`,
 
-  links: `<span class="label">X</span>         <a href="https://x.com/patsullyyy" target="_blank">x.com/patsullyyy</a>
-<span class="label">Instagram</span> <a href="https://instagram.com/patsullyyy" target="_blank">instagram.com/patsullyyy</a>
-<span class="label">LinkedIn</span>  <a href="https://linkedin.com/in/pdsullivan" target="_blank">linkedin.com/in/pdsullivan</a>
-<span class="label">Strava</span>    <a href="https://strava.com/athletes/patsullyyy" target="_blank">strava.com/athletes/patsullyyy</a>
-<span class="label">Thoughts</span>  <a href="https://accordingto.pdsullivan.com" target="_blank">accordingto.pdsullivan.com</a>
-<span class="label">Linq</span>      <a href="https://linqapp.com" target="_blank">linqapp.com</a>`,
+  links: `Available links:
+  <span class="highlight clickable-cmd" data-cmd="x">x</span>         - x.com/patsullyyy
+  <span class="highlight clickable-cmd" data-cmd="instagram">instagram</span> - instagram.com/patsullyyy
+  <span class="highlight clickable-cmd" data-cmd="linkedin">linkedin</span>  - linkedin.com/in/pdsullivan
+  <span class="highlight clickable-cmd" data-cmd="strava">strava</span>    - strava.com/athletes/patsullyyy
+  <span class="highlight clickable-cmd" data-cmd="thoughts">thoughts</span>  - accordingto.pdsullivan.com
+  <span class="highlight clickable-cmd" data-cmd="linq">linq</span>      - linqapp.com`,
 
   clear: 'CLEAR',
 };
+
+// Link data for link commands
+const linkData = {
+  x: { url: 'https://x.com/patsullyyy', display: 'x.com/patsullyyy' },
+  instagram: { url: 'https://instagram.com/patsullyyy', display: 'instagram.com/patsullyyy' },
+  linkedin: { url: 'https://linkedin.com/in/pdsullivan', display: 'linkedin.com/in/pdsullivan' },
+  strava: { url: 'https://strava.com/athletes/patsullyyy', display: 'strava.com/athletes/patsullyyy' },
+  thoughts: { url: 'https://accordingto.pdsullivan.com', display: 'accordingto.pdsullivan.com' },
+  linq: { url: 'https://linqapp.com', display: 'linqapp.com' },
+};
+
+// Track active link for y/o commands
+let activeLink = null;
 
 function getPromptHTML() {
   return `<span class="prompt-user">visitor</span><span class="prompt-at">@</span><span class="prompt-host">pdsullivan.com</span> <span class="prompt-separator">in</span> <span class="prompt-path">~</span> <span class="prompt-git"> main</span>`;
@@ -116,10 +130,48 @@ function handleCommand(cmd) {
     return;
   }
 
-  const response = commands[trimmed];
+  // Handle y/o when there's an active link
+  if (activeLink && (trimmed === 'y' || trimmed === 'o')) {
+    if (trimmed === 'y') {
+      navigator.clipboard.writeText(activeLink.url);
+      haptic.confirm();
+      printLine(`<span class="muted">copied:</span> ${activeLink.url}`, 'response');
+    } else if (trimmed === 'o') {
+      haptic.confirm();
+      printLine(`<span class="muted">opening:</span> ${activeLink.url}`, 'response');
+      window.open(activeLink.url, '_blank');
+    }
+    activeLink = null;
+    return;
+  }
+
+  // Shortcuts
+  const shortcuts = {
+    l: 'links',
+    c: 'contact',
+    w: 'work',
+    h: 'help',
+  };
+  const resolved = shortcuts[trimmed] || trimmed;
+
+  const response = commands[resolved];
+  const link = linkData[resolved];
+
+  // Clear active link on any other command
+  activeLink = null;
+
   if (response) {
     printLine(response, 'response');
     haptic.confirm(); // Success - two taps
+  } else if (link) {
+    // Show link options and set active link
+    activeLink = link;
+    printLine(`<span class="highlight">${link.display}</span>
+
+  <span class="link-action" data-action="copy" data-url="${link.url}">[y] copy to clipboard</span>
+  <span class="link-action" data-action="visit" data-url="${link.url}">[o] open link</span>
+  <span class="clickable-cmd" data-cmd="links">[l] all links</span>`, 'response');
+    haptic.confirm();
   } else {
     printLine(`<span class="error">command not found:</span> ${trimmed}. Type <span class="highlight">'help'</span> for available commands.`, 'response');
     haptic.error(); // Error - three taps
@@ -155,6 +207,25 @@ document.addEventListener('click', (e) => {
   if (e.target.classList.contains('clickable-cmd')) {
     const cmd = e.target.dataset.cmd;
     handleCommand(cmd);
+    input.focus();
+  }
+});
+
+// Link action click
+document.addEventListener('click', async (e) => {
+  if (e.target.classList.contains('link-action')) {
+    const action = e.target.dataset.action;
+    const url = e.target.dataset.url;
+
+    if (action === 'copy') {
+      await navigator.clipboard.writeText(url);
+      haptic.confirm();
+      printLine(`<span class="muted">copied:</span> ${url}`, 'response');
+    } else if (action === 'visit') {
+      haptic.confirm();
+      printLine(`<span class="muted">opening:</span> ${url}`, 'response');
+      window.open(url, '_blank');
+    }
     input.focus();
   }
 });
