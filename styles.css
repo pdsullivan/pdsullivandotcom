@@ -24,8 +24,11 @@ body {
   font-size: 13px;
   line-height: 1.6;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 20px;
-  padding-bottom: 50vh; /* Extra space for mobile keyboard */
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 600px) {
@@ -38,11 +41,17 @@ body {
 #terminal {
   max-width: 800px;
   margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 #output {
   white-space: pre-wrap;
   word-wrap: break-word;
+  flex: 1;
+  overflow-y: auto;
 }
 
 #output .command-line {
@@ -102,6 +111,10 @@ body {
   flex-wrap: wrap;
   gap: 0;
   margin-top: 8px;
+  padding-bottom: 20px;
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  flex-shrink: 0;
+  background: #0d1117;
 }
 
 #input-line .prompt-line {

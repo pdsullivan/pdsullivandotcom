@@ -93,6 +93,7 @@ function printLine(html, className = '') {
   line.className = className;
   line.innerHTML = html;
   output.appendChild(line);
+  output.scrollTop = output.scrollHeight;
 }
 
 
