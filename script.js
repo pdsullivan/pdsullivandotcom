@@ -58,7 +58,7 @@ Co-founder & CTO at Linq. I build startups—the tech, the product, the teams.
 
 Previously a founding team member at Shipt—built the apps that launched the company, spent 5 years scaling the tech and leading half the engineering org.
 
-Outside of work: daily workouts, scuba, skiing, good food, good wine.`,
+Outside of work: daily workouts, scuba, skiing, good food, good wine, and mass GeoGuessr.`,
 
   work: `<span class="highlight">Co-Founder & CTO at Linq</span> (2020-present)
 Building a communications API platform for iMessage, RCS, SMS & voice.
@@ -76,6 +76,7 @@ Building a communications API platform for iMessage, RCS, SMS & voice.
   <span class="highlight clickable-cmd" data-cmd="instagram">instagram</span> - instagram.com/patsullyyy
   <span class="highlight clickable-cmd" data-cmd="linkedin">linkedin</span>  - linkedin.com/in/pdsullivan
   <span class="highlight clickable-cmd" data-cmd="strava">strava</span>    - strava.com/athletes/patsullyyy
+  <span class="highlight clickable-cmd" data-cmd="geoguessr">geoguessr</span> - geoguessr.com/user/...
   <span class="highlight clickable-cmd" data-cmd="thoughts">thoughts</span>  - accordingto.pdsullivan.com
   <span class="highlight clickable-cmd" data-cmd="linq">linq</span>      - linqapp.com`,
 
@@ -88,6 +89,7 @@ const linkData = {
   instagram: { url: 'https://instagram.com/patsullyyy', display: 'instagram.com/patsullyyy' },
   linkedin: { url: 'https://linkedin.com/in/pdsullivan', display: 'linkedin.com/in/pdsullivan' },
   strava: { url: 'https://strava.com/athletes/patsullyyy', display: 'strava.com/athletes/patsullyyy' },
+  geoguessr: { url: 'https://www.geoguessr.com/user/66b2a465885031ef8888abab', display: 'geoguessr.com/user/patsullyyy' },
   thoughts: { url: 'https://accordingto.pdsullivan.com', display: 'accordingto.pdsullivan.com' },
   linq: { url: 'https://linqapp.com', display: 'linqapp.com' },
 };
