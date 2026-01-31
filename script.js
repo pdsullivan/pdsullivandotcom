@@ -73,12 +73,13 @@ Building a communications API platform for iMessage, RCS, SMS & voice.
 
   links: `Available links:
   <span class="highlight clickable-cmd" data-cmd="x">x</span>         - x.com/patsullyyy
-  <span class="highlight clickable-cmd" data-cmd="instagram">instagram</span> - instagram.com/patsullyyy
+  <span class="highlight clickable-cmd" data-cmd="instagram">instagram</span> - instagram.com/patsullivan
   <span class="highlight clickable-cmd" data-cmd="linkedin">linkedin</span>  - linkedin.com/in/pdsullivan
   <span class="highlight clickable-cmd" data-cmd="strava">strava</span>    - strava.com/athletes/patsullyyy
   <span class="highlight clickable-cmd" data-cmd="geoguessr">geoguessr</span> - geoguessr.com/user/...
   <span class="highlight clickable-cmd" data-cmd="thoughts">thoughts</span>  - accordingto.pdsullivan.com
-  <span class="highlight clickable-cmd" data-cmd="linq">linq</span>      - linqapp.com`,
+  <span class="highlight clickable-cmd" data-cmd="linq">linq</span>      - linqapp.com
+  <span class="highlight clickable-cmd" data-cmd="hemisphere">hemisphere</span> - github.com/pdsullivan/hemisphere`,
 
   clear: 'CLEAR',
 };
@@ -92,6 +93,7 @@ const linkData = {
   geoguessr: { url: 'https://www.geoguessr.com/user/66b2a465885031ef8888abab', display: 'geoguessr.com/user/patsullyyy' },
   thoughts: { url: 'https://accordingto.pdsullivan.com', display: 'accordingto.pdsullivan.com' },
   linq: { url: 'https://linqapp.com', display: 'linqapp.com' },
+  hemisphere: { url: 'https://github.com/pdsullivan/hemisphere', display: 'github.com/pdsullivan/hemisphere' },
 };
 
 // Email data for contact commands
